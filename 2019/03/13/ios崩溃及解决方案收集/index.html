@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="keep our promise">
-<meta property="og:type" content="website">
-<meta property="og:title" content="分类">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta name="description" content="iOS 崩溃及解决方案收集216 SIGSEGV  SEGV_ACCERRSIGSEGV通常由操作系统生成，但是有适当权限的用户可以在需要时使用kill系统调用或kill命令（一个用户级程序，或者一个shell内建命令）来向一个进程发送信号。闪退场景一：recorder deleteRecording  之前 先判断文件是否存在，否则会造成过度释放，解决方法: if ([[NSFileManage">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 崩溃及解决方案收集">
+<meta property="og:url" content="http://yoursite.com/2019/03/13/ios崩溃及解决方案收集/index.html">
 <meta property="og:site_name" content="hypo blog">
-<meta property="og:description" content="keep our promise">
+<meta property="og:description" content="iOS 崩溃及解决方案收集216 SIGSEGV  SEGV_ACCERRSIGSEGV通常由操作系统生成，但是有适当权限的用户可以在需要时使用kill系统调用或kill命令（一个用户级程序，或者一个shell内建命令）来向一个进程发送信号。闪退场景一：recorder deleteRecording  之前 先判断文件是否存在，否则会造成过度释放，解决方法: if ([[NSFileManage">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-15T08:37:30.966Z">
+<meta property="og:updated_time" content="2019-03-13T04:04:51.292Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="分类">
-<meta name="twitter:description" content="keep our promise">
+<meta name="twitter:title" content="iOS 崩溃及解决方案收集">
+<meta name="twitter:description" content="iOS 崩溃及解决方案收集216 SIGSEGV  SEGV_ACCERRSIGSEGV通常由操作系统生成，但是有适当权限的用户可以在需要时使用kill系统调用或kill命令（一个用户级程序，或者一个shell内建命令）来向一个进程发送信号。闪退场景一：recorder deleteRecording  之前 先判断文件是否存在，否则会造成过度释放，解决方法: if ([[NSFileManage">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/13/ios崩溃及解决方案收集/">
 
 
 
 
 
-  <title>分类 | hypo blog</title>
+  <title>iOS 崩溃及解决方案收集 | hypo blog</title>
   
 
 
@@ -272,40 +272,153 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/13/ios崩溃及解决方案收集/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hypoli">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hypo blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">分类</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                暂无分类
-            </div>
-            <div class="category-all">
+          <h1 class="post-title" itemprop="name headline">iOS 崩溃及解决方案收集</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
               
-            </div>
-          </div>
-        
-      </div>
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-13T12:03:17+08:00">
+                2019-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h1 id="iOS-崩溃及解决方案收集"><a href="#iOS-崩溃及解决方案收集" class="headerlink" title="iOS 崩溃及解决方案收集"></a>iOS 崩溃及解决方案收集</h1><h3 id="216-SIGSEGV"><a href="#216-SIGSEGV" class="headerlink" title="216 SIGSEGV"></a>216 SIGSEGV</h3><blockquote>
+<p> SEGV_ACCERR<br>SIGSEGV通常由操作系统生成，但是有适当权限的用户可以在需要时使用kill系统调用或kill命令（一个用户级程序，或者一个shell内建命令）<br>来向一个进程发送信号。<br>闪退场景一：recorder deleteRecording  之前 先判断文件是否存在，否则会造成过度释放，解决方法:<br> if ([[NSFileManager defaultManager] fileExistsAtPath:self.recorder.url.path]) {<br>    if (![self.recorder deleteRecording])<br>        NSLog(@”Failed to delete %@”, self.recorder.url);<br>}<br>闪退场景二： delegate = nil 。<br>将XXViewContrller设置为delegate时，当页面发生跳转时，XXViewController的对象会被释放，这是代码走到[_delegate callbackMethod],<br>便出现crash。解决方法有二：1.将@property (nonatomic ,assign) id <blelibdelegate>delegate; 中 assign关键字改为weak。<br>2.在XXViewController的delloc方法中添加：xxx.delegate = nil;<br>实例：<br>-(UITableViewCell <em>)tableView:(UITableView </em>)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{<br>      cell.delegate=self;<br>}<br>cell内部控件的点击事件通过代理方式如此实现时就会导致这个崩溃。<br>补充：SIG 是信号名的通用前缀, SEGV 是 segmentation violation 的缩写<br>在 POSIX 兼容的平台上，SIGSEGV 是当一个进程执行了一个无效的内存引用，或发生段错误时发送给它的信号。SIGSEGV 的符号常量在头文件 signal.h<br>中定义。因为在不同平台上，信号数字可能变化，因此符号信号名被使用。通常，它是信号11。<br>对于不正确的内存处理,如当程序企图访问 CPU 无法定址的内存区块时,计算机程序可能抛出 SIGSEGV。操作系统可能使用信号栈向一个处于自然状态的应用<br>程序通告错误，由此，开发者可以使用它来调试程序或处理错误。<br>在一个程序接收到 SIGSEGV 时的默认动作是异常终止。这个动作也许会结束进程，但是可能生成一个核心文件以帮助调试，或者执行一些其他特定于某些平台<br>的动作。<br>SIGSEGV可以被捕获。也就是说，应用程序可以请求它们想要的动作，以替代默认发生的动作。这样的动作可以是忽略它、调用一个函数，或恢复默认的动作。<br>在一些情形下，忽略 SIGSEGV 导致未定义行为。<br>一个应用程序可能处理SIGSEGV的例子是调试器，它可能检查信号栈并通知开发者目前所发生的，以及程序终止的位置。</blelibdelegate></p>
+</blockquote>
+<h3 id="tableView滑动删除，返回导致程序崩溃问题"><a href="#tableView滑动删除，返回导致程序崩溃问题" class="headerlink" title="tableView滑动删除，返回导致程序崩溃问题"></a>tableView滑动删除，返回导致程序崩溃问题</h3><blockquote>
+<ul>
+<li>(void)tableView:(UITableView<em>)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyleforRowAtIndexPath:(NSIndexPath </em>)indexPath;<br>实现后，删除某个cell没有问题，但滑动一行但不选中delete按钮，就点击导航栏的返回按钮，出现了崩溃现象，而且崩溃是出现在跳回到之前的界面之后，崩溃之后提示打印出EXE_BAD_ACESSS错，<br>直接到了 main 函数里。问题可能是在 canEditRowAtIndexPath 这个方法里设置了YES然后返回的时候没有把它设置成 NO 所以报错，ios6会自动设置成NO，iOS7 就手动设置成 NO也可以。<br>方案一：viewWillDisappear手动设置 editing 这个属性为NO 解决。参考：<a href="http://blog.csdn.net/damon2989/article/details/44410367" target="_blank" rel="noopener">http://blog.csdn.net/damon2989/article/details/44410367</a><br>-(void)viewWillDisappear:(BOOL)animated{<br>  [super viewWillDisappear:animated];<br>  [self.tableView setEditing:NO];<br>}<br>方案二：在删除事件点击完成时reloadData也可以- (NSArray <em>)tableView:(UITableView </em>)tableView editActionsForRowAtIndexPath:(NSIndexPath <em>)indexPath{<br>  //添加一个删除按钮<br>  UITableViewRowAction </em>deleteAction = [UITableViewRowAction rowActionWithStyle:(UITableViewRowActionStyleDestructive) title:@”删除” handler:^(UITableViewRowAction <em>action, NSIndexPath </em>indexPath) {<pre><code>[tableView reloadData];
+NSLog(@&quot;****:delete&quot;);     
+</code></pre>  }];<br>  deleteAction.backgroundColor = [UIColor redColor];<br>  //将设置好的按钮方到数组中返回<br>  return @[deleteAction];<br>}</li>
+</ul>
+</blockquote>
+<h3 id="UIVisualEffectView报错的问题："><a href="#UIVisualEffectView报错的问题：" class="headerlink" title="UIVisualEffectView报错的问题："></a>UIVisualEffectView报错的问题：</h3><blockquote>
+<p>Assertion failure in -[UIVisualEffectView _addSubview:positioned:relativeTo:],<br>/BuildRoot/Library/Caches/com.apple.xbs/Sources/UIKit_Sim/UIKit-3698.21.8/UIVisualEffectView.m:1464<br>(lldb) </p>
+</blockquote>
+<h3 id="添加全局断点找到错误所在"><a href="#添加全局断点找到错误所在" class="headerlink" title="添加全局断点找到错误所在:"></a>添加全局断点找到错误所在:</h3><blockquote>
+<p>[self.effectview addSubview:label]<br>UIVisualEffectView添加子View的方式不对，在ios 11上必须添加到它的contentView内：<br>[self.effectview.contentView addSubview: label];</p>
+</blockquote>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/04/面试题/" rel="next" title="面试题">
+                <i class="fa fa-chevron-left"></i> 面试题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -338,8 +451,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -393,6 +515,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS-崩溃及解决方案收集"><span class="nav-number">1.</span> <span class="nav-text">iOS 崩溃及解决方案收集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#216-SIGSEGV"><span class="nav-number">1.0.1.</span> <span class="nav-text">216 SIGSEGV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tableView滑动删除，返回导致程序崩溃问题"><span class="nav-number">1.0.2.</span> <span class="nav-text">tableView滑动删除，返回导致程序崩溃问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UIVisualEffectView报错的问题："><span class="nav-number">1.0.3.</span> <span class="nav-text">UIVisualEffectView报错的问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加全局断点找到错误所在"><span class="nav-number">1.0.4.</span> <span class="nav-text">添加全局断点找到错误所在:</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
