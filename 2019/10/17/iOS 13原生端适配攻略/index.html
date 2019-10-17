@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="随着iOS 13的发布，公司的项目也势必要着手适配了。现汇总一下iOS 13的各种坑  1. KVC访问私有属性这次iOS 13系统升级，影响范围最广的应属KVC访问修改私有属性了，直接禁止开发者获取或直接设置私有属性。而KVC的初衷是允许开发者通过Key名直接访问修改对象的属性值，为其中最典型的 UITextField 的 _placeholderLabel、UISearchBar 的 _se">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 13原生端适配攻略">
+<meta property="og:url" content="http://yoursite.com/2019/10/17/iOS 13原生端适配攻略/index.html">
+<meta property="og:site_name" content="hypo blog">
+<meta property="og:description" content="随着iOS 13的发布，公司的项目也势必要着手适配了。现汇总一下iOS 13的各种坑  1. KVC访问私有属性这次iOS 13系统升级，影响范围最广的应属KVC访问修改私有属性了，直接禁止开发者获取或直接设置私有属性。而KVC的初衷是允许开发者通过Key名直接访问修改对象的属性值，为其中最典型的 UITextField 的 _placeholderLabel、UISearchBar 的 _se">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191017093844396.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODAwNDM4NQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191017095015602.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODAwNDM4NQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191017095108446.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODAwNDM4NQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191017095349787.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191017095403614.png">
+<meta property="og:updated_time" content="2019-10-17T02:10:03.658Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 13原生端适配攻略">
+<meta name="twitter:description" content="随着iOS 13的发布，公司的项目也势必要着手适配了。现汇总一下iOS 13的各种坑  1. KVC访问私有属性这次iOS 13系统升级，影响范围最广的应属KVC访问修改私有属性了，直接禁止开发者获取或直接设置私有属性。而KVC的初衷是允许开发者通过Key名直接访问修改对象的属性值，为其中最典型的 UITextField 的 _placeholderLabel、UISearchBar 的 _se">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20191017093844396.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODAwNDM4NQ==,size_16,color_FFFFFF,t_70">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/10/17/iOS 13原生端适配攻略/">
+
+
+
+
+
+  <title>iOS 13原生端适配攻略 | hypo blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hypo blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/17/iOS 13原生端适配攻略/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hypoli">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hypo blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS 13原生端适配攻略</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-17T10:04:12+08:00">
+                2019-10-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>随着iOS 13的发布，公司的项目也势必要着手适配了。现汇总一下iOS 13的各种坑</p>
+</blockquote>
+<h3 id="1-KVC访问私有属性"><a href="#1-KVC访问私有属性" class="headerlink" title="1. KVC访问私有属性"></a>1. KVC访问私有属性</h3><p>这次iOS 13系统升级，影响范围最广的应属KVC访问修改私有属性了，直接禁止开发者获取或直接设置私有属性。而KVC的初衷是允许开发者通过Key名直接访问修改对象的属性值，为其中最典型的 UITextField 的 _placeholderLabel、UISearchBar 的 _searchField。<br>造成影响：在iOS 13下App闪退。 错误代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// placeholderLabel私有属性访问</span><br><span class="line">[textField setValue:[UIColor redColor] forKeyPath:@&quot;_placeholderLabel.textColor&quot;];</span><br><span class="line">[textField setValue:[UIFont boldSystemFontOfSize:16] forKeyPath:@&quot;_placeholderLabel.font&quot;];</span><br><span class="line">// searchField私有属性访问</span><br><span class="line">UISearchBar *searchBar = [[UISearchBar alloc] init];</span><br><span class="line">UITextField *searchTextField = [searchBar valueForKey:@&quot;_searchField&quot;];</span><br></pre></td></tr></table></figure></p>
+<p>解决方案:  使用 NSMutableAttributedString 富文本来替代KVC访问 UITextField 的 _placeholderLabel<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@&quot;placeholder&quot; attributes:@&#123;NSForegroundColorAttributeName: [UIColor darkGrayColor], NSFontAttributeName: [UIFont systemFontOfSize:13]&#125;];</span><br></pre></td></tr></table></figure></p>
+<p>因此，可以为UITextFeild创建Category，专门用于处理修改placeHolder属性提供方法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;UITextField+ChangePlaceholder.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation UITextField (Change)</span><br><span class="line"></span><br><span class="line">- (void)setPlaceholderFont:(UIFont *)font &#123;</span><br><span class="line"></span><br><span class="line">  [self setPlaceholderColor:nil font:font];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setPlaceholderColor:(UIColor *)color &#123;</span><br><span class="line"></span><br><span class="line">  [self setPlaceholderColor:color font:nil];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setPlaceholderColor:(nullable UIColor *)color font:(nullable UIFont *)font &#123;</span><br><span class="line"></span><br><span class="line">  if ([self checkPlaceholderEmpty]) &#123;</span><br><span class="line">      return;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  NSMutableAttributedString *placeholderAttriString = [[NSMutableAttributedString alloc] initWithString:self.placeholder];</span><br><span class="line">  if (color) &#123;</span><br><span class="line">      [placeholderAttriString addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, self.placeholder.length)];</span><br><span class="line">  &#125;</span><br><span class="line">  if (font) &#123;</span><br><span class="line">      [placeholderAttriString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, self.placeholder.length)];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  [self setAttributedPlaceholder:placeholderAttriString];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)checkPlaceholderEmpty &#123;</span><br><span class="line">  return (self.placeholder == nil) || ([[self.placeholder stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] == 0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>关于 UISearchBar，可遍历其所有子视图，找到指定的 UITextField 类型的子视图，再根据上述 UITextField 的通过富文本方法修改属性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;UISearchBar+ChangePrivateTextFieldSubview.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation UISearchBar (ChangePrivateTextFieldSubview)</span><br><span class="line"></span><br><span class="line">// 修改SearchBar系统自带的TextField</span><br><span class="line">- (void)changeSearchTextFieldWithCompletionBlock:(void(^)(UITextField *textField))completionBlock &#123;</span><br><span class="line"></span><br><span class="line">    if (!completionBlock) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    UITextField *textField = [self findTextFieldWithView:self];</span><br><span class="line">    if (textField) &#123;</span><br><span class="line">        completionBlock(textField);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 递归遍历UISearchBar的子视图，找到UITextField</span><br><span class="line">- (UITextField *)findTextFieldWithView:(UIView *)view &#123;</span><br><span class="line"></span><br><span class="line">    for (UIView *subview in view.subviews) &#123;</span><br><span class="line">        if ([subview isKindOfClass:[UITextField class]]) &#123;</span><br><span class="line">            return (UITextField *)subview;</span><br><span class="line">        &#125;else if (subview.subviews.count &gt; 0) &#123;</span><br><span class="line">            return [self findTextFieldWithView:subview];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-模态弹窗-ViewController-默认样式改变"><a href="#2-模态弹窗-ViewController-默认样式改变" class="headerlink" title="2. 模态弹窗 ViewController 默认样式改变"></a>2. 模态弹窗 ViewController 默认样式改变</h3><p>模态弹窗属性 UIModalPresentationStyle 在 iOS 13 下默认被设置为 UIModalPresentationAutomatic新特性，展示样式更为炫酷，同时可用下拉手势关闭模态弹窗。<br>若原有模态弹出 ViewController 时都已指定模态弹窗属性，则可以无视该改动。<br>若想在 iOS 13 中继续保持原有默认模态弹窗效果。可以通过 runtime 的 Method Swizzling 方法交换来实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;UIViewController+ChangeDefaultPresentStyle.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation UIViewController (ChangeDefaultPresentStyle)</span><br><span class="line"></span><br><span class="line">+ (void)load &#123;</span><br><span class="line"></span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        Class class = [self class];</span><br><span class="line">        //替换方法</span><br><span class="line">        SEL originalSelector = @selector(presentViewController:animated:completion:);</span><br><span class="line">        SEL newSelector = @selector(new_presentViewController:animated:completion:);</span><br><span class="line"></span><br><span class="line">        Method originalMethod = class_getInstanceMethod(class, originalSelector);</span><br><span class="line">        Method newMethod = class_getInstanceMethod(class, newSelector);;</span><br><span class="line">        BOOL didAddMethod =</span><br><span class="line">        class_addMethod(class,</span><br><span class="line">                        originalSelector,</span><br><span class="line">                        method_getImplementation(newMethod),</span><br><span class="line">                        method_getTypeEncoding(newMethod));</span><br><span class="line"></span><br><span class="line">        if (didAddMethod) &#123;</span><br><span class="line">            class_replaceMethod(class,</span><br><span class="line">                                newSelector,</span><br><span class="line">                                method_getImplementation(originalMethod),</span><br><span class="line">                                method_getTypeEncoding(originalMethod));</span><br><span class="line"></span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            method_exchangeImplementations(originalMethod, newMethod);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)new_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion &#123;</span><br><span class="line"></span><br><span class="line">    viewControllerToPresent.modalPresentationStyle = UIModalPresentationFullScreen;</span><br><span class="line">    [self new_presentViewController:viewControllerToPresent animated:flag completion:completion];</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-黑暗模式的适配"><a href="#3-黑暗模式的适配" class="headerlink" title="3. 黑暗模式的适配"></a>3. 黑暗模式的适配</h3><p> 针对黑暗模式的推出，Apple官方推荐所有三方App尽快适配。目前并没有强制App进行黑暗模式适配。因此黑暗模式适配范围现在可采用以下三种策略：</p>
+<p>1.全局关闭黑暗模式<br>2.指定页面关闭黑暗模式<br>3.全局适配黑暗模式</p>
+<h4 id="3-1-全局关闭黑暗模式"><a href="#3-1-全局关闭黑暗模式" class="headerlink" title="3.1. 全局关闭黑暗模式"></a>3.1. 全局关闭黑暗模式</h4><p>方案一：在项目 Info.plist 文件中，添加一条内容，Key为 User Interface Style，值类型设置为String并设置为 Light 即可。<br>方案二：代码强制关闭黑暗模式，将当前 window 设置为 Light 状态。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if(@available(iOS 13.0,*))&#123;</span><br><span class="line">	self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-2-指定页面关闭黑暗模式"><a href="#3-2-指定页面关闭黑暗模式" class="headerlink" title="3.2 指定页面关闭黑暗模式"></a>3.2 指定页面关闭黑暗模式</h4><p>从Xcode 11、iOS 13开始，UIViewController与View新增属性 overrideUserInterfaceStyle，若设置View对象该属性为指定模式，则强制该对象以及子对象以指定模式展示，不会跟随系统模式改变。<br>1.设置 ViewController 该属性， 将会影响视图控制器的视图以及子视图控制器都采用该模式;<br>2.设置 View 该属性， 将会影响视图及其所有子视图采用该模式;<br>3.设置 Window 该属性， 将会影响窗口中的所有内容都采用该样式，包括根视图控制器和在该窗口中显示内容的所有控制器;</p>
+<h4 id="3-3-全局适配黑暗模式"><a href="#3-3-全局适配黑暗模式" class="headerlink" title="3.3 全局适配黑暗模式"></a>3.3 全局适配黑暗模式</h4><p>适配黑暗模式，主要从两方面入手：图片资源适配与颜色适配</p>
+<h5 id="图片资源适配"><a href="#图片资源适配" class="headerlink" title="图片资源适配"></a>图片资源适配</h5><p>打开图片资源管理库 Assets.xcassets，选中需要适配的图片素材item，打开最右侧的 Inspectors 工具栏，找到 Appearances 选项，并设置为 Any, Dark模式，此时会在item下增加Dark Appearance，将黑暗模式下的素材拖入即可。关于黑暗模式图片资源的加载，与正常加载图片方法一致。<br><img src="https://img-blog.csdnimg.cn/20191017093844396.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODAwNDM4NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h5 id="颜色适配"><a href="#颜色适配" class="headerlink" title="颜色适配"></a>颜色适配</h5><p>iOS 13开始UIColor变为动态颜色，在Light Mode与Dark Mode可以分别设置不同颜色。<br>若UIColor色值管理，与图片资源一样存储于 Assets.xcassets 中，同样参照上述方法适配。<br>若UIColor色值并没有存储于 Assets.xcassets 情况下，自定义动态UIColor时，在iOS 13下初始化方法增加了两个方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ (UIColor *)colorWithDynamicProvider:(UIColor * (^)(UITraitCollection *))dynamicProvider API_AVAILABLE(ios(13.0), tvos(13.0)) API_UNAVAILABLE(watchos);</span><br><span class="line">- (UIColor *)initWithDynamicProvider:(UIColor * (^)(UITraitCollection *))dynamicProvider API_AVAILABLE(ios(13.0), tvos(13.0)) API_UNAVAILABLE(watchos);</span><br></pre></td></tr></table></figure></p>
+<p>1.这两个方法要求传一个block，block会返回一个 UITraitCollection 类<br>1.当系统在黑暗模式与正常模式切换时，会触发block回调 示例代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">UIColor * dynamicColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) &#123;</span><br><span class="line">   	 if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) &#123;</span><br><span class="line">            return [UIColor whiteColor];</span><br><span class="line">   	 &#125; else &#123;</span><br><span class="line">            return [UIColor blackColor];</span><br><span class="line">   	 &#125;</span><br><span class="line">  &#125;];</span><br><span class="line"> [self.view setBackgroundColor:dynamicColor];</span><br></pre></td></tr></table></figure></p>
+<p>当然了，iOS 13系统也默认提供了一套基本的黑暗模式UIColor动态颜色，具体声明如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">@property (class, nonatomic, readonly) UIColor *systemBrownColor        API_AVAILABLE(ios(13.0), tvos(13.0)) API_UNAVAILABLE(watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *systemIndigoColor       API_AVAILABLE(ios(13.0), tvos(13.0)) API_UNAVAILABLE(watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *systemGray2Color        API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *systemGray3Color        API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *systemGray4Color        API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *systemGray5Color        API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *systemGray6Color        API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *labelColor              API_AVAILABLE(ios(13.0), tvos(13.0)) API_UNAVAILABLE(watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *secondaryLabelColor     API_AVAILABLE(ios(13.0), tvos(13.0)) API_UNAVAILABLE(watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *tertiaryLabelColor      API_AVAILABLE(ios(13.0), tvos(13.0)) API_UNAVAILABLE(watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *quaternaryLabelColor    API_AVAILABLE(ios(13.0), tvos(13.0)) API_UNAVAILABLE(watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *linkColor               API_AVAILABLE(ios(13.0), tvos(13.0)) API_UNAVAILABLE(watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *placeholderTextColor    API_AVAILABLE(ios(13.0), tvos(13.0)) API_UNAVAILABLE(watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *separatorColor          API_AVAILABLE(ios(13.0), tvos(13.0)) API_UNAVAILABLE(watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *opaqueSeparatorColor    API_AVAILABLE(ios(13.0), tvos(13.0)) API_UNAVAILABLE(watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *systemBackgroundColor                   API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *secondarySystemBackgroundColor          API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *tertiarySystemBackgroundColor           API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *systemGroupedBackgroundColor            API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *secondarySystemGroupedBackgroundColor   API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *tertiarySystemGroupedBackgroundColor    API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *systemFillColor                         API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *secondarySystemFillColor                API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *tertiarySystemFillColor                 API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br><span class="line">@property (class, nonatomic, readonly) UIColor *quaternarySystemFillColor               API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);</span><br></pre></td></tr></table></figure></p>
+<h5 id="监听模式的切换"><a href="#监听模式的切换" class="headerlink" title="监听模式的切换"></a>监听模式的切换</h5><p>当需要监听系统模式发生变化并作出响应时，需要用到 ViewController 以下函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 注意:参数为变化前的traitCollection，改函数需要重写</span><br><span class="line">- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection;</span><br><span class="line"> </span><br><span class="line">// 判断两个UITraitCollection对象是否不同</span><br><span class="line">- (BOOL)hasDifferentColorAppearanceComparedToTraitCollection:(UITraitCollection *)traitCollection;</span><br></pre></td></tr></table></figure></p>
+<p>示例代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection &#123;</span><br><span class="line">    [super traitCollectionDidChange:previousTraitCollection];</span><br><span class="line">    // trait has Changed?</span><br><span class="line">    if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) &#123;</span><br><span class="line">    // do something...</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="系统模式变更，自定义重绘视图"><a href="#系统模式变更，自定义重绘视图" class="headerlink" title="系统模式变更，自定义重绘视图"></a>系统模式变更，自定义重绘视图</h5><p>当系统模式变更时，系统会通知所有的 View以及 ViewController 需要更新样式，会触发以下方法执行（参考<a href="https://developer.apple.com/documentation/xcode/supporting_dark_mode_in_your_interface?changes=latest_minor&amp;language=objc" target="_blank" rel="noopener">Apple官方适配链接</a>）：</p>
+<h6 id="NSView"><a href="#NSView" class="headerlink" title="NSView"></a>NSView</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)updateLayer;</span><br><span class="line">- (void)drawRect:(NSRect)dirtyRect;</span><br><span class="line">- (void)layout;</span><br><span class="line">- (void)updateConstraints;</span><br></pre></td></tr></table></figure>
+<h6 id="UIView"><a href="#UIView" class="headerlink" title="UIView"></a>UIView</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection;</span><br><span class="line">- (void)layoutSubviews;</span><br><span class="line">- (void)drawRect:(NSRect)dirtyRect;</span><br><span class="line">- (void)updateConstraints;</span><br><span class="line">- (void)tintColorDidChange;</span><br></pre></td></tr></table></figure>
+<h6 id="UIViewController"><a href="#UIViewController" class="headerlink" title="UIViewController"></a>UIViewController</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection;</span><br><span class="line">- (void)updateViewConstraints;</span><br><span class="line">- (void)viewWillLayoutSubviews;</span><br><span class="line">- (void)viewDidLayoutSubviews;</span><br></pre></td></tr></table></figure>
+<h6 id="UIPresentationController"><a href="#UIPresentationController" class="headerlink" title="UIPresentationController"></a>UIPresentationController</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection;</span><br><span class="line">- (void)containerViewWillLayoutSubviews;</span><br><span class="line">- (void)containerViewDidLayoutSubviews;</span><br></pre></td></tr></table></figure>
+<h3 id="4-LaunchImage即将废弃"><a href="#4-LaunchImage即将废弃" class="headerlink" title="4. LaunchImage即将废弃"></a>4. LaunchImage即将废弃</h3><p>使用 LaunchImage 设置启动图，需要提供各类屏幕尺寸的启动图适配，这种方式随着各类设备尺寸的增加，增加了额外不必要的工作量。为了解决 LaunchImage 带来的弊端，iOS 8引入了 LaunchScreen 技术，因为支持 AutoLayout + SizeClass，所以通过 LaunchScreen 就可以简单解决适配当下以及未来各种屏幕尺寸。<br>Apple官方已经发出公告，2020年4月开始，所有使用iOS 13 SDK 的App都必须提供 LaunchScreen。<br>创建一个 LaunchScreen 也非常简单<br>（1）New Files创建一个 LaunchScreen，在创建的 ViewController 下 View 中新建一个 Image，并配置 Image 的图片<br>（2）调整 Image 的 frame 为占满屏幕，并修改 Image 的 Autoresizing 如下图，完成<br><img src="https://img-blog.csdnimg.cn/20191017095015602.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODAwNDM4NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="5-新增一直使用蓝牙的权限申请"><a href="#5-新增一直使用蓝牙的权限申请" class="headerlink" title="5. 新增一直使用蓝牙的权限申请"></a>5. 新增一直使用蓝牙的权限申请</h3><p>在iOS13之前，无需权限提示窗即可直接使用蓝牙，但在iOS 13下，新增了使用蓝牙的权限申请。最近一段时间上传IPA包至App Store会收到以下提示。<br><img src="https://img-blog.csdnimg.cn/20191017095108446.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODAwNDM4NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>解决方案：只需要在 Info.plist 里增加以下条目：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;key&gt;NSBluetoothAlwaysUsageDescription&lt;/key&gt; </span><br><span class="line">&lt;string&gt;这里输入使用蓝牙来做什么&lt;/string&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="6-Sign-With-Apple"><a href="#6-Sign-With-Apple" class="headerlink" title="6. Sign With Apple"></a>6. Sign With Apple</h3><p> 在iOS 13系统中，Apple要求提供第三方登录的App也要支持「Sign With Apple」，具体实践参考 <a href="https://easeapi.com/blog/blog/88-sign-with-apple.html" target="_blank" rel="noopener">iOS Sign With Apple实践</a></p>
+<h3 id="7-推送Device-Token适配"><a href="#7-推送Device-Token适配" class="headerlink" title="7. 推送Device Token适配"></a>7. 推送Device Token适配</h3><p> 在iOS 13之前，获取Device Token 是将系统返回的 NSData 类型数据通过 -(void)description; 方法直接转换成 NSString 字符串。 iOS 13之前获取结果：<br><img src="https://img-blog.csdnimg.cn/20191017095349787.png" alt="在这里插入图片描述"><br>iOS 13之后获取结果：<br><img src="https://img-blog.csdnimg.cn/20191017095403614.png" alt="在这里插入图片描述"><br>适配方案：<br>目的是要将系统返回 NSData 类型数据转换成字符串，再传给推送服务方。-(void)description; 本身是用于为类调试提供相关的打印信息，严格来说，不应直接从该方法获取数据并应用于正式环境中。将 NSData 转换成 HexString，即可满足适配需求。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (NSString *)getHexStringForData:(NSData *)data &#123;</span><br><span class="line">    NSUInteger length = [data length];</span><br><span class="line">    char *chars = (char *)[data bytes];</span><br><span class="line">    NSMutableString *hexString = [[NSMutableString alloc] init];</span><br><span class="line">    for (NSUInteger i = 0; i &lt; length; i++) &#123;</span><br><span class="line">        [hexString appendString:[NSString stringWithFormat:@&quot;%0.2hhx&quot;, chars[i]]];</span><br><span class="line">    &#125;</span><br><span class="line">    return hexString;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="8-UIKit-控件变化"><a href="#8-UIKit-控件变化" class="headerlink" title="8. UIKit 控件变化"></a>8. UIKit 控件变化</h3><p>主要还是参照了Apple官方的 UIKit 修改文档声明。<a href="https://developer.apple.com/documentation/ios_ipados_release_notes/ios_13_release_notes?preferredLanguage=occ" target="_blank" rel="noopener">iOS 13 Release Notes</a></p>
+<h4 id="8-1-UITableView"><a href="#8-1-UITableView" class="headerlink" title="8.1. UITableView"></a>8.1. UITableView</h4><p>iOS 13下设置 cell.contentView.backgroundColor 会直接影响 cell 本身 selected 与 highlighted 效果。<br>建议不要对 contentView.backgroundColor 修改，而对 cell 本身进行设置。</p>
+<h4 id="8-2-UITabbar"><a href="#8-2-UITabbar" class="headerlink" title="8.2. UITabbar"></a>8.2. UITabbar</h4><h6 id="Badge-文字大小变化"><a href="#Badge-文字大小变化" class="headerlink" title="Badge 文字大小变化"></a>Badge 文字大小变化</h6><p> iOS 13之后，Badge 字体默认由13号变为17号。<br>建议在初始化 TabbarController 时，显示 Badge 的 ViewController 调用 setBadgeTextAttributes:forState: 方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (@available(iOS 13, *)) &#123;</span><br><span class="line">    [viewController.tabBarItem setBadgeTextAttributes:@&#123;NSFontAttributeName: [UIFont systemFontOfSize:13]&#125; forState:UIControlStateNormal];</span><br><span class="line">    [viewController.tabBarItem setBadgeTextAttributes:@&#123;NSFontAttributeName: [UIFont systemFontOfSize:13]&#125; forState:UIControlStateSelected];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="8-3-UITabBarItem"><a href="#8-3-UITabBarItem" class="headerlink" title="8.3 UITabBarItem"></a>8.3 UITabBarItem</h4><h6 id="加载gif需设置-scale-比例"><a href="#加载gif需设置-scale-比例" class="headerlink" title="加载gif需设置 scale 比例"></a>加载gif需设置 scale 比例</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">NSData *data = [NSData dataWithContentsOfFile:path];</span><br><span class="line">CGImageSourceRef gifSource = CGImageSourceCreateWithData(CFBridgingRetain(data), nil);</span><br><span class="line">size_t gifCount = CGImageSourceGetCount(gifSource);</span><br><span class="line">CGImageRef imageRef = CGImageSourceCreateImageAtIndex(gifSource, i,NULL);</span><br><span class="line"></span><br><span class="line">//  iOS 13之前</span><br><span class="line">UIImage *image = [UIImage imageWithCGImage:imageRef]</span><br><span class="line">//  iOS 13之后添加scale比例(该imageView将展示该动图效果)</span><br><span class="line">UIImage *image = [UIImage imageWithCGImage:imageRef scale:image.size.width / CGRectGetWidth(imageView.frame) orientation:UIImageOrientationUp];</span><br><span class="line"></span><br><span class="line">CGImageRelease(imageRef);</span><br></pre></td></tr></table></figure>
+<h6 id="无文字时图片位置调整"><a href="#无文字时图片位置调整" class="headerlink" title="无文字时图片位置调整"></a>无文字时图片位置调整</h6><p> iOS 13下不需要调整 imageInsets，图片会自动居中显示，因此只需要针对iOS 13之前的做适配即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (IOS_VERSION &lt; 13.0) &#123;</span><br><span class="line">      viewController.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="TabBarItem选中颜色异常"><a href="#TabBarItem选中颜色异常" class="headerlink" title="TabBarItem选中颜色异常"></a>TabBarItem选中颜色异常</h6><p>在 iOS 13下设置 tabbarItem 字体选中状态的颜色，在push到其它 ViewController 再返回时，选中状态的 tabbarItem 颜色会变成默认的蓝色。<br>设置 tabbar 的 tintColor 属性为原本选中状态的颜色即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.tabBar.tintColor = [UIColor redColor];</span><br></pre></td></tr></table></figure></p>
+<h4 id="8-3-新增-Diffable-DataSource"><a href="#8-3-新增-Diffable-DataSource" class="headerlink" title="8.3. 新增 Diffable DataSource"></a>8.3. 新增 Diffable DataSource</h4><p>在 iOS 13下，对 UITableView 与 UICollectionView 新增了一套 Diffable DataSource API。为了更高效地更新数据源刷新列表，避免了原有粗暴的刷新方法 - (void)reloadData，以及手动调用控制列表刷新范围的api，很容易出现计算不准确造成 NSInternalInconsistencyException 而引发App crash。<br><a href="https://developer.apple.com/documentation/uikit/uitableviewdiffabledatasource?language=objc" target="_blank" rel="noopener">api 官方链接</a></p>
+<h3 id="9-StatusBar新增样式"><a href="#9-StatusBar新增样式" class="headerlink" title="9. StatusBar新增样式"></a>9. StatusBar新增样式</h3><p>StatusBar 新增一种样式，默认的 default 由之前的黑色字体，变为根据系统模式自动选择展示 lightContent 或者 darkContent</p>
+<blockquote>
+<p>转自：<a href="https://juejin.im/post/5da033756fb9a04e37316872?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="noopener">https://juejin.im/post/5da033756fb9a04e37316872?utm_source=tuicool&amp;utm_medium=referral</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/27/Objective-C与Swift的区别/" rel="next" title="Objective-C与Swift的区别">
+                <i class="fa fa-chevron-left"></i> Objective-C与Swift的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="hypoli">
+            
+              <p class="site-author-name" itemprop="name">hypoli</p>
+              <p class="site-description motion-element" itemprop="description">keep our promise</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hypoearl/hypoearl.github.io.git" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-KVC访问私有属性"><span class="nav-number">1.</span> <span class="nav-text">1. KVC访问私有属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-模态弹窗-ViewController-默认样式改变"><span class="nav-number">2.</span> <span class="nav-text">2. 模态弹窗 ViewController 默认样式改变</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-黑暗模式的适配"><span class="nav-number">3.</span> <span class="nav-text">3. 黑暗模式的适配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-全局关闭黑暗模式"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 全局关闭黑暗模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-指定页面关闭黑暗模式"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 指定页面关闭黑暗模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-全局适配黑暗模式"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 全局适配黑暗模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#图片资源适配"><span class="nav-number">3.3.1.</span> <span class="nav-text">图片资源适配</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#颜色适配"><span class="nav-number">3.3.2.</span> <span class="nav-text">颜色适配</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#监听模式的切换"><span class="nav-number">3.3.3.</span> <span class="nav-text">监听模式的切换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#系统模式变更，自定义重绘视图"><span class="nav-number">3.3.4.</span> <span class="nav-text">系统模式变更，自定义重绘视图</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#NSView"><span class="nav-number">3.3.4.1.</span> <span class="nav-text">NSView</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#UIView"><span class="nav-number">3.3.4.2.</span> <span class="nav-text">UIView</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#UIViewController"><span class="nav-number">3.3.4.3.</span> <span class="nav-text">UIViewController</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#UIPresentationController"><span class="nav-number">3.3.4.4.</span> <span class="nav-text">UIPresentationController</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-LaunchImage即将废弃"><span class="nav-number">4.</span> <span class="nav-text">4. LaunchImage即将废弃</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-新增一直使用蓝牙的权限申请"><span class="nav-number">5.</span> <span class="nav-text">5. 新增一直使用蓝牙的权限申请</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Sign-With-Apple"><span class="nav-number">6.</span> <span class="nav-text">6. Sign With Apple</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-推送Device-Token适配"><span class="nav-number">7.</span> <span class="nav-text">7. 推送Device Token适配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-UIKit-控件变化"><span class="nav-number">8.</span> <span class="nav-text">8. UIKit 控件变化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-1-UITableView"><span class="nav-number">8.1.</span> <span class="nav-text">8.1. UITableView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-UITabbar"><span class="nav-number">8.2.</span> <span class="nav-text">8.2. UITabbar</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Badge-文字大小变化"><span class="nav-number">8.2.0.1.</span> <span class="nav-text">Badge 文字大小变化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-3-UITabBarItem"><span class="nav-number">8.3.</span> <span class="nav-text">8.3 UITabBarItem</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#加载gif需设置-scale-比例"><span class="nav-number">8.3.0.1.</span> <span class="nav-text">加载gif需设置 scale 比例</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#无文字时图片位置调整"><span class="nav-number">8.3.0.2.</span> <span class="nav-text">无文字时图片位置调整</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#TabBarItem选中颜色异常"><span class="nav-number">8.3.0.3.</span> <span class="nav-text">TabBarItem选中颜色异常</span></a></li></ol></li></ol><li class="nav-item nav-level-4"><a class="nav-link" href="#8-3-新增-Diffable-DataSource"><span class="nav-number">8.4.</span> <span class="nav-text">8.3. 新增 Diffable DataSource</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-StatusBar新增样式"><span class="nav-number">9.</span> <span class="nav-text">9. StatusBar新增样式</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hypoli</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
