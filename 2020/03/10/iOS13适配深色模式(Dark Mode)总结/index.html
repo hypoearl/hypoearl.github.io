@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="好像大概也许是一年前, Mac OS系统发布了深色模式外观, 看着挺刺激, 时至今日用着也还挺爽的  终于,随着iPhone11等新手机的发售, iOS 13系统也正式发布了, 伴随着手机版的深色模式也出现在了大众视野 我们这些iOS程序猿也有事情做了, 原有项目适配iOS13系统, 适配Dark Mode深色模式  虽然现在并没有要求强制适配Dark Mode, 但是DarK适配却也迫在眉睫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS13适配深色模式(Dark Mode)总结">
+<meta property="og:url" content="http://yoursite.com/2020/03/10/iOS13适配深色模式(Dark Mode)总结/index.html">
+<meta property="og:site_name" content="hypo blog">
+<meta property="og:description" content="好像大概也许是一年前, Mac OS系统发布了深色模式外观, 看着挺刺激, 时至今日用着也还挺爽的  终于,随着iPhone11等新手机的发售, iOS 13系统也正式发布了, 伴随着手机版的深色模式也出现在了大众视野 我们这些iOS程序猿也有事情做了, 原有项目适配iOS13系统, 适配Dark Mode深色模式  虽然现在并没有要求强制适配Dark Mode, 但是DarK适配却也迫在眉睫">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200310094941723.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODAwNDM4NQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200310103842380.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODAwNDM4NQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200310104001734.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODAwNDM4NQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2020-03-10T03:10:55.483Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS13适配深色模式(Dark Mode)总结">
+<meta name="twitter:description" content="好像大概也许是一年前, Mac OS系统发布了深色模式外观, 看着挺刺激, 时至今日用着也还挺爽的  终于,随着iPhone11等新手机的发售, iOS 13系统也正式发布了, 伴随着手机版的深色模式也出现在了大众视野 我们这些iOS程序猿也有事情做了, 原有项目适配iOS13系统, 适配Dark Mode深色模式  虽然现在并没有要求强制适配Dark Mode, 但是DarK适配却也迫在眉睫">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200310094941723.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODAwNDM4NQ==,size_16,color_FFFFFF,t_70">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/10/iOS13适配深色模式(Dark Mode)总结/">
+
+
+
+
+
+  <title>iOS13适配深色模式(Dark Mode)总结 | hypo blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hypo blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/10/iOS13适配深色模式(Dark Mode)总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hypoli">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hypo blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS13适配深色模式(Dark Mode)总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-10T11:05:54+08:00">
+                2020-03-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://img-blog.csdnimg.cn/20200310094941723.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODAwNDM4NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li>好像大概也许是一年前, <font color="red">Mac OS</font>系统发布了深色模式外观, 看着挺刺激, 时至今日用着也还挺爽的 </li>
+<li>终于,随着<font color="red">iPhone11</font>等新手机的发售, <font color="red">iOS 13</font>系统也正式发布了, 伴随着手机版的深色模式也出现在了大众视野</li>
+<li>我们这些<font color="red">iOS</font>程序猿也有事情做了, 原有项目适配<font color="red">iOS13</font>系统, 适配<font color="red">Dark Mode</font>深色模式 </li>
+<li><p>虽然现在并没有要求强制适配<font color="red">Dark Mode</font>, 但是<font color="red">DarK</font>适配却也迫在眉睫，2020年3 月 4 日苹果更新了 <font color="red">App Store</font> 审核指南，其中重点提到了：在过去四年里，全球<font color="red">iOS</font> 设备中有 77％ 都在运行 <font color="red">iOS 13</font>，<font color="red">iPad</font> 设备中有 79％ 都在运行 <font color="red">iPadOS</font>。通过无缝集成深色模式、通过 <font color="red">Apple</font> 登录、以及 <font color="red">ARKit 3</font>、<font color="red">Core ML 3</font> 和 <font color="red">Siri</font> 的最新改进，提供出色的用户体验。从 2020 年 4 月 30 日开始，所有提交至 <font color="red">App Store</font> 的<font color="red"> iPhone app </font>和<font color="red"> iPad app </font>都须使用<font color="red"> iOS 13 SDK </font>或更高版本来构建。</p>
+<h2 id="获取当前模式"><a href="#获取当前模式" class="headerlink" title="获取当前模式"></a>获取当前模式</h2><blockquote>
+<p>提供两种方式设置手机当前外观模式</p>
+</blockquote>
+</li>
+<li><p>设置 –&gt; 显示与亮度</p>
+</li>
+<li>控制中心, 长按亮度调节按钮<h4 id="获取当前模式-1"><a href="#获取当前模式-1" class="headerlink" title="获取当前模式"></a>获取当前模式</h4>我们需要选获取到当前出于什么模式, 在根据不同的模式进行适配, iOS 13中新增了获取当前模式的API<blockquote>
+<p>Swift</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取当前模式</span></span><br><span class="line"><span class="keyword">let</span> currentMode = UITraitCollection.current.userInterfaceStyle</span><br><span class="line"><span class="keyword">if</span> (currentMode == .dark) &#123;</span><br><span class="line">    print(<span class="string">"深色模式"</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (currentMode == .light) &#123;</span><br><span class="line">    print(<span class="string">"浅色模式"</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    print(<span class="string">"未知模式"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">open <span class="keyword">var</span> userInterfaceStyle: UIUserInterfaceStyle &#123; <span class="keyword">get</span> &#125; </span><br><span class="line"></span><br><span class="line">// 所有模式</span><br><span class="line">public enum UIUserInterfaceStyle : Int &#123;</span><br><span class="line">    <span class="comment">// 未指明的</span></span><br><span class="line">    <span class="keyword">case</span> unspecified</span><br><span class="line">    <span class="comment">// 浅色模式</span></span><br><span class="line">    <span class="keyword">case</span> light</span><br><span class="line">    <span class="comment">// 深色模式</span></span><br><span class="line">    <span class="keyword">case</span> dark</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>OC</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (@available(iOS <span class="number">13.0</span>, *)) &#123;</span><br><span class="line">    UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;</span><br><span class="line">    <span class="keyword">if</span> (mode == UIUserInterfaceStyleDark) &#123;</span><br><span class="line">        NSLog(@<span class="string">"深色模式"</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mode == UIUserInterfaceStyleLight) &#123;</span><br><span class="line">        NSLog(@<span class="string">"浅色模式"</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        NSLog(@<span class="string">"未知模式"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 各种枚举值</span></span><br><span class="line">typedef NS_ENUM(NSInteger, UIUserInterfaceStyle) &#123;</span><br><span class="line">    UIUserInterfaceStyleUnspecified,</span><br><span class="line">    UIUserInterfaceStyleLight,</span><br><span class="line">    UIUserInterfaceStyleDark,</span><br><span class="line">&#125; API_AVAILABLE(tvos(<span class="number">10.0</span>)) API_AVAILABLE(ios(<span class="number">12.0</span>)) API_UNAVAILABLE(watchos);</span><br></pre></td></tr></table></figure>
+<h4 id="监听系统模式的变化"><a href="#监听系统模式的变化" class="headerlink" title="监听系统模式的变化"></a>监听系统模式的变化</h4><p>在<font color="red">iOS 13</font>系统中, <font color="red">UIViewController</font>遵循了两个协议: <font color="red">UITraitEnvironment</font>和<font color="red">UIContentContainer</font>协议</p>
+<p>在<font color="red">UITraitEnvironment</font>协议中, 为我们提供了一个监听当前模式变化的方法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@protocol UITraitEnvironment &lt;NSObject&gt;</span><br><span class="line"><span class="comment">// 当前模式</span></span><br><span class="line">@property (nonatomic, readonly) UITraitCollection *traitCollection API_AVAILABLE(ios(<span class="number">8.0</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 重写该方法监听模式的改变</span></span><br><span class="line">- (<span class="keyword">void</span>)traitCollectionDidChange:(nullable UITraitCollection *)previousTraitCollection API_AVAILABLE(ios(<span class="number">8.0</span>));</span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public protocol UITraitEnvironment : NSObjectProtocol &#123;</span><br><span class="line">    <span class="comment">// 当前模式</span></span><br><span class="line">    @available(iOS <span class="number">8.0</span>, *)</span><br><span class="line">    <span class="keyword">var</span> traitCollection: UITraitCollection &#123; <span class="keyword">get</span> &#125;</span><br><span class="line"></span><br><span class="line">    // 重写该方法监听模式的改变</span><br><span class="line">    @available(iOS 8.0, *)</span><br><span class="line">    func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 使用方法</span><br><span class="line">override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) &#123;</span><br><span class="line">    <span class="keyword">super</span>.traitCollectionDidChange(previousTraitCollection)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 每次模式改变的时候, 这里都会执行</span></span><br><span class="line">    print(<span class="string">"模式改变了"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="颜色相关适配"><a href="#颜色相关适配" class="headerlink" title="颜色相关适配"></a>颜色相关适配</h2><ul>
+<li>不同模式的适配主要涉及颜色和图片两个方面的适配</li>
+<li>其中颜色适配, 包括相关背景色和字体颜色</li>
+<li>当系统模式切换的时候, 我们不需要如何操作, 系统会自动渲染页面, 只需要做好不同模式的颜色和图片即可<h4 id="UIColor"><a href="#UIColor" class="headerlink" title="UIColor"></a>UIColor</h4></li>
+<li><font color="red">iOS13</font>之前<font color="red">UIColor</font>只能表示一种颜色，从<font color="red">iOS13</font>开始<font color="red">UIColor</font>是一个动态的颜色，在不同模式下可以分别代表不同的颜色</li>
+<li>下面是<font color="red">iOS13</font>系统提供的动态颜色种类, 使用以下颜色值, 在模式切换时, 则不需要做特殊处理</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">@interface UIColor (UIColorSystemColors)</span><br><span class="line">#pragma mark System colors</span><br><span class="line"></span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemRedColor</span>          <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(7.0), <span class="title">tvos</span>(9.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemGreenColor</span>        <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(7.0), <span class="title">tvos</span>(9.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemBlueColor</span>         <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(7.0), <span class="title">tvos</span>(9.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemOrangeColor</span>       <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(7.0), <span class="title">tvos</span>(9.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemYellowColor</span>       <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(7.0), <span class="title">tvos</span>(9.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemPinkColor</span>         <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(7.0), <span class="title">tvos</span>(9.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemPurpleColor</span>       <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(9.0), <span class="title">tvos</span>(9.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemTealColor</span>         <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(7.0), <span class="title">tvos</span>(9.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemIndigoColor</span>       <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0), <span class="title">tvos</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line"><span class="comment">// 灰色种类, 在Light模式下, systemGray6Color更趋向于白色</span></span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemGrayColor</span>         <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(7.0), <span class="title">tvos</span>(9.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemGray2Color</span>        <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemGray3Color</span>        <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemGray4Color</span>        <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemGray5Color</span>        <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemGray6Color</span>        <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line"></span><br><span class="line">#pragma mark Foreground colors</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">labelColor</span>              <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0), <span class="title">tvos</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">secondaryLabelColor</span>     <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0), <span class="title">tvos</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">tertiaryLabelColor</span>      <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0), <span class="title">tvos</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">quaternaryLabelColor</span>    <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0), <span class="title">tvos</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line"><span class="comment">// 系统链接的前景色</span></span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">linkColor</span>               <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0), <span class="title">tvos</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line"><span class="comment">// 占位文字的颜色</span></span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">placeholderTextColor</span>    <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0), <span class="title">tvos</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line"><span class="comment">// 边框或者分割线的颜色</span></span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">separatorColor</span>          <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0), <span class="title">tvos</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">opaqueSeparatorColor</span>    <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0), <span class="title">tvos</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">watchos</span>)</span>;</span><br><span class="line"></span><br><span class="line">#pragma mark Background colors</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemBackgroundColor</span>                   <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">secondarySystemBackgroundColor</span>          <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">tertiarySystemBackgroundColor</span>           <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemGroupedBackgroundColor</span>            <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">secondarySystemGroupedBackgroundColor</span>   <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">tertiarySystemGroupedBackgroundColor</span>    <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line"></span><br><span class="line">#pragma mark Fill colors</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">systemFillColor</span>                         <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">secondarySystemFillColor</span>                <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">tertiarySystemFillColor</span>                 <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line">@property (<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">quaternarySystemFillColor</span>               <span class="title">API_AVAILABLE</span>(<span class="title">ios</span>(13.0)) <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>, <span class="title">watchos</span>)</span>;</span><br><span class="line"></span><br><span class="line">#pragma mark Other colors</span><br><span class="line"><span class="comment">// 这两个是非动态颜色值</span></span><br><span class="line">@property(<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">lightTextColor</span> <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>)</span>;    <span class="comment">// for a dark background</span></span><br><span class="line">@property(<span class="class"><span class="keyword">class</span>, <span class="title">nonatomic</span>, <span class="title">readonly</span>) <span class="title">UIColor</span> *<span class="title">darkTextColor</span> <span class="title">API_UNAVAILABLE</span>(<span class="title">tvos</span>)</span>;     <span class="comment">// for a light background</span></span><br><span class="line"></span><br><span class="line">@property(class, nonatomic, readonly) UIColor *groupTableViewBackgroundColor API_DEPRECATED_WITH_REPLACEMENT("systemGroupedBackgroundColor", ios(2.0, 13.0), tvos(13.0, 13.0));</span><br><span class="line">@property(class, nonatomic, readonly) UIColor *viewFlipsideBackgroundColor API_DEPRECATED("", ios(2.0, 7.0)) API_UNAVAILABLE(tvos);</span><br><span class="line">@property(class, nonatomic, readonly) UIColor *scrollViewTexturedBackgroundColor API_DEPRECATED("", ios(3.2, 7.0)) API_UNAVAILABLE(tvos);</span><br><span class="line">@property(class, nonatomic, readonly) UIColor *underPageBackgroundColor API_DEPRECATED("", ios(5.0, 7.0)) API_UNAVAILABLE(tvos);</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上面系统提供的这些颜色种类, 根本不能满足我们正常开发的需要, 大部分的颜色值也都是自定义</li>
+<li>系统也为我们提供了创建自定义颜色的方法</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@available(iOS <span class="number">13.0</span>, *)</span><br><span class="line">public init(dynamicProvider: @escaping (UITraitCollection) -&gt; UIColor)</span><br></pre></td></tr></table></figure>
+<p>在OC中<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ (UIColor *)colorWithDynamicProvider:(UIColor * (^)(UITraitCollection *traitCollection))dynamicProvider API_AVAILABLE(ios(<span class="number">13.0</span>), tvos(<span class="number">13.0</span>)) API_UNAVAILABLE(watchos);</span><br><span class="line">- (UIColor *)initWithDynamicProvider:(UIColor * (^)(UITraitCollection *traitCollection))dynamicProvider API_AVAILABLE(ios(<span class="number">13.0</span>), tvos(<span class="number">13.0</span>)) API_UNAVAILABLE(watchos);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>上面的方法接受一个闭包(<font color="red">block</font>)</li>
+<li>当系统在<font color="red">LightMode</font>和<font color="red">DarkMode</font>之间相互切换时就会自动触发此回调</li>
+<li>回调返回一个<font color="red">UITraitCollection</font>, 可根据改对象判断是那种模式<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fileprivate func getColor() -&gt; UIColor &#123;</span><br><span class="line">    <span class="keyword">return</span> UIColor &#123; (collection) -&gt; UIColor <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">if</span> (collection.userInterfaceStyle == .dark) &#123;</span><br><span class="line">            <span class="keyword">return</span> UIColor.red</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> UIColor.green</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>除了上述两个方法之外,<font color="red"> UIColor </font>还增加了一个实例方法<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过当前traitCollection得到对应UIColor</span></span><br><span class="line">@available(iOS <span class="number">13.0</span>, *)</span><br><span class="line">open func resolvedColor(<span class="keyword">with</span> traitCollection: UITraitCollection) -&gt; UIColor</span><br></pre></td></tr></table></figure></p>
+<h4 id="CGColor"><a href="#CGColor" class="headerlink" title="CGColor"></a>CGColor</h4><ul>
+<li><font color="red">UIColor</font>只是设置背景色和文字颜色的类, 可以动态的设置</li>
+<li>可是如果是需要设置类似边框颜色等属性时, 又该如何处理呢</li>
+<li>设置上述边框属性, 需要用到<font color="red">CGColor</font>类, 但是在<font color="red">iOS13</font>中<font color="red">CGColor</font>并不是动态颜色值, 只能表示一种颜色</li>
+<li>在监听模式改变的方法中<font color="red">traitCollectionDidChange</font>, 根据不同的模式进行处理<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) &#123;</span><br><span class="line">    <span class="keyword">super</span>.traitCollectionDidChange(previousTraitCollection)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 每次模式改变的时候, 这里都会执行</span></span><br><span class="line">    <span class="keyword">if</span> (previousTraitCollection?.userInterfaceStyle == .dark) &#123;</span><br><span class="line">        redView.layer.borderColor = UIColor.red.cgColor</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        redView.layer.borderColor = UIColor.green.cgColor</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="图片适配"><a href="#图片适配" class="headerlink" title="图片适配"></a>图片适配</h2><ul>
+<li>在<font color="red">iOS</font>中, 图片基本都是放在<font color="red">Assets.xcassets</font>里面, 所以图片的适配, 我们就相对麻烦一些了</li>
+<li>正常情况下都是下面这中处理方式<br><img src="https://img-blog.csdnimg.cn/20200310103842380.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODAwNDM4NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>需要适配不同模式的情况下, 需要两套不同的图片, 并做如下设置</li>
+<li>在设置<font color="red">Appearances</font>时, 我们选择<font color="red">Any, Dark</font>就可以了(只需要适配深色模式和非深色模式)<br><img src="https://img-blog.csdnimg.cn/20200310104001734.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODAwNDM4NQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><h2 id="适配相关"><a href="#适配相关" class="headerlink" title="适配相关"></a>适配相关</h2></li>
+<li>原项目中如果没有适配<font color="red">Dark Mode</font>, 当你切换到<font color="red">Dark Mode</font>后, 你可能会发现, 有些部分页面的颜色自动适配了</li>
+<li>未设置过背景颜色或者文字颜色的组件, 在<font color="red">Dark Mode</font>模式下, 就是黑色的</li>
+<li>这里我们就需要真对该单独App强制设置成<font color="red">Light Mode</font>模式</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置改属性, 只会影响当前的视图, 不会影响前面的controller和后续present的controller</span></span><br><span class="line">@available(iOS <span class="number">13.0</span>, *)</span><br><span class="line">open <span class="keyword">var</span> overrideUserInterfaceStyle: UIUserInterfaceStyle</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用示例</span></span><br><span class="line">override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) &#123;</span><br><span class="line">    <span class="keyword">super</span>.traitCollectionDidChange(previousTraitCollection)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 每次模式改变的时候, 这里都会执行</span></span><br><span class="line">    <span class="keyword">if</span> (previousTraitCollection?.userInterfaceStyle == .dark) &#123;</span><br><span class="line">        <span class="comment">// 在Dark模式下, 强制改成Light模式</span></span><br><span class="line">        overrideUserInterfaceStyle = .light</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="强制项目的显示模式"><a href="#强制项目的显示模式" class="headerlink" title="强制项目的显示模式"></a>强制项目的显示模式</h4><ul>
+<li>上面这种方式只能针对某一个页面修改, 如果需要对整个项目禁用<font color="red">Dark</font>模式</li>
+<li>可以通过修改<font color="red">window</font>的<font color="red">overrideUserInterfaceStyle</font>属性</li>
+<li>在<font color="red">Xcode11</font>创建的项目中, <font color="red">window</font>从<font color="red">AppDelegate</font>移到<font color="red">SceneDelegate</font>中, 添加下面这段代码, 就会做到全局修改显示模式</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> scene = UIApplication.shared.connectedScenes.first?.delegate <span class="keyword">as</span>? SceneDelegate</span><br><span class="line">scene?.window?.overrideUserInterfaceStyle = .light</span><br></pre></td></tr></table></figure>
+<p>在之前的项目中, 可以在<font color="red">AppDelegate</font>设置如下代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.overrideUserInterfaceStyle = .light</span><br></pre></td></tr></table></figure>
+<p>我创建的简单项目, 上述代码的确会强制改变当前的模式, 但是状态栏的显示不会被修改, 不知道是不是漏了什么</p>
+<h4 id="终极方案"><a href="#终极方案" class="headerlink" title="终极方案"></a>终极方案</h4><ul>
+<li>需要在<font color="red">info.plist</font>文件中添加<font color="red">User Interface Style</font>配置, 并设置为<font color="red">Light</font></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;key&gt;UIUserInterfaceStyle&lt;<span class="regexp">/key&gt;</span></span><br><span class="line"><span class="regexp">&lt;string&gt;Light&lt;/</span>string&gt;</span><br></pre></td></tr></table></figure>
+<p>问题又来了, 即使做了上面的修改, 在<font color="red">React Native</font>中, 状态栏的依然是根据不同的模式显示不同的颜色, 该如何处理嘞?</p>
+<h2 id="Status-Bar更新"><a href="#Status-Bar更新" class="headerlink" title="Status Bar更新"></a>Status Bar更新</h2><p>在<font color="red">iOS13</font>中苹果对于<font color="red">Status Bar</font>也做了部分修改, 在<font color="red">iOS13</font>之前</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public enum UIStatusBarStyle : Int &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">`default`</span> <span class="comment">// 默认文字黑色</span></span><br><span class="line"></span><br><span class="line">    @available(iOS <span class="number">7.0</span>, *)</span><br><span class="line">    <span class="keyword">case</span> lightContent <span class="comment">// 文字白色</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从<font color="red">iOS13</font>开始<font color="red">UIStatusBarStyle</font>一共有三种状态</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public enum UIStatusBarStyle : Int &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">`default`</span> <span class="comment">// 自动选择黑色或白色</span></span><br><span class="line"></span><br><span class="line">    @available(iOS <span class="number">7.0</span>, *)</span><br><span class="line">    <span class="keyword">case</span> lightContent <span class="comment">// 文字白色</span></span><br><span class="line">    </span><br><span class="line">    @available(iOS <span class="number">13.0</span>, *)</span><br><span class="line">    <span class="keyword">case</span> darkContent <span class="comment">// 文字黑色</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<font color="red">React Native</font>的代码中, 设置状态栏的颜色为黑色, 代码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;StatusBar barStyle=&#123;<span class="string">'dark-content'</span>&#125; /&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上面这段代码在<font color="red">iOS13</font>系统的手机中是无效的</li>
+<li>虽然上面的代码中设置了<font color="red">dark-content</font>模式, 但是在<font color="red">iOS</font>原生代码中<font color="red">dark-content</font>实际是<font color="red">UIStatusBarStyleDefault</font></li>
+<li>在文件<font color="red">RCTStatusBarManager.m</font>中</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RCT_ENUM_CONVERTER(UIStatusBarStyle, (@&#123;</span><br><span class="line">  @<span class="string">"default"</span>: @(UIStatusBarStyleDefault),</span><br><span class="line">  @<span class="string">"light-content"</span>: @(UIStatusBarStyleLightContent),</span><br><span class="line">  @<span class="string">"dark-content"</span>: @(UIStatusBarStyleDefault),</span><br><span class="line">&#125;), UIStatusBarStyleDefault, integerValue);</span><br></pre></td></tr></table></figure>
+<p>修改上面代码即可<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@<span class="string">"dark-content"</span>: @(@available(iOS <span class="number">13.0</span>, *) ? UIStatusBarStyleDarkContent : UIStatusBarStyleDefault),</span><br></pre></td></tr></table></figure></p>
+<h2 id="iOS13-其他更新"><a href="#iOS13-其他更新" class="headerlink" title="iOS13 其他更新"></a>iOS13 其他更新</h2><h4 id="苹果登录"><a href="#苹果登录" class="headerlink" title="苹果登录"></a>苹果登录</h4><blockquote>
+<p>Sign In with Apple will be available for beta testing this summer. It will be required as an option for users in apps that support third-party sign-in when it is commercially available later this year.</p>
+</blockquote>
+<ul>
+<li>如果<font color="red">APP</font>支持三方登陆(<font color="red">Facbook</font>、<font color="red">Google</font>、微信、<font color="red">QQ</font>、支付宝等），就必须支持苹果登陆，且要放前边</li>
+<li>至于<font color="red">Apple</font>登录按钮的样式, 建议支持使用<font color="red">Apple</font>提供的按钮样式，已经适配各类设备, 可参考<a href="https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/introduction/" target="_blank" rel="noopener">Sign In with Apple</a></li>
+</ul>
+<h4 id="LaunchImage"><a href="#LaunchImage" class="headerlink" title="LaunchImage"></a>LaunchImage</h4><blockquote>
+<p>即将被废弃的<font color="red">LaunchImage</font></p>
+</blockquote>
+<ul>
+<li>从<font color="red">iOS 8</font>的时候，苹果就引入了<font color="red">LaunchScreen</font>，我们可以设置<font color="red">LaunchScreen</font>来作为启动页。</li>
+<li>现在你还可以使用<font color="red">LaunchImage</font>来设置启动图, 但是随着苹果设备尺寸越来越多, 适配显然相对麻烦一些</li>
+<li>使用<font color="red">LaunchScreen</font>的话，情况会变的很简单，<font color="red">LaunchScreen</font>是支持<font color="red">AutoLayout</font>和<font color="red">SizeClass</font>的，所以适配各种屏幕都不在话下。</li>
+<li>⚠️从2020年4月开始，所有App将必须提供<font color="red">LaunchScreen</font>，而<font color="red">LaunchImage</font>即将退出历史舞台</li>
+</ul>
+<h4 id="UIWebView"><a href="#UIWebView" class="headerlink" title="UIWebView"></a>UIWebView</h4><blockquote>
+<font color="red">‘UIWebView’ was deprecated in iOS 12.0: No longer supported; please adopt WKWebView.</font>
+</blockquote>
+<blockquote>
+<p>从<font color="red">iOS 13</font>开始也不再支持<font color="red">UIWebView</font>控件了, 尽快替换成<font color="red">WKWebView</font>吧</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@available(iOS, <span class="attr">introduced</span>: <span class="number">2.0</span>, <span class="attr">deprecated</span>: <span class="number">12.0</span>, <span class="attr">message</span>: <span class="string">"No longer supported; please adopt WKWebView."</span>)</span><br><span class="line">open class UIWebView : UIView, NSCoding, UIScrollViewDelegate &#123; &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="私有KVC"><a href="#私有KVC" class="headerlink" title="私有KVC"></a>私有KVC</h4><p>iOS不允许<font color="red">valueForKey</font>、<font color="red">setValue: forKey</font>获取和设置私有属性，需要使用其它方式修改<br>如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[textField setValue:[UIColor red] forKeyPath:@<span class="string">"_placeholderLabel.textColor"</span>];</span><br><span class="line"><span class="comment">//替换为</span></span><br><span class="line">textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@<span class="string">"输入"</span>attributes:@&#123;<span class="attr">NSForegroundColorAttributeName</span>: [UIColor red]&#125;];</span><br></pre></td></tr></table></figure>
+<h4 id="黑线处理crash"><a href="#黑线处理crash" class="headerlink" title="黑线处理crash"></a>黑线处理crash</h4><p>之前为了处理搜索框的黑线问题会遍历后删除<font color="red">UISearchBarBackground</font>，在iOS13会导致UI渲染失败crash;解决办法是设置<font color="red">UISearchBarBackground</font>的layer.contents为nil</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public func clearBlackLine() &#123;</span><br><span class="line">        <span class="keyword">for</span> view <span class="keyword">in</span> self.subviews.last!.subviews &#123;</span><br><span class="line">            <span class="keyword">if</span> view.isKind(<span class="keyword">of</span>: NSClassFromString(<span class="string">"UISearchBarBackground"</span>)!) &#123;</span><br><span class="line">                view.backgroundColor = UIColor.white</span><br><span class="line">                view.layer.contents = nil</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/19/面试知识总结/" rel="next" title="面试总结">
+                <i class="fa fa-chevron-left"></i> 面试总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.png" alt="hypoli">
+            
+              <p class="site-author-name" itemprop="name">hypoli</p>
+              <p class="site-description motion-element" itemprop="description">keep our promise</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/hypoearl/hypoearl.github.io.git" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#获取当前模式"><span class="nav-number">1.</span> <span class="nav-text">获取当前模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#获取当前模式-1"><span class="nav-number">1.0.1.</span> <span class="nav-text">获取当前模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#监听系统模式的变化"><span class="nav-number">1.0.2.</span> <span class="nav-text">监听系统模式的变化</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#颜色相关适配"><span class="nav-number">2.</span> <span class="nav-text">颜色相关适配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#UIColor"><span class="nav-number">2.0.1.</span> <span class="nav-text">UIColor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CGColor"><span class="nav-number">2.0.2.</span> <span class="nav-text">CGColor</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片适配"><span class="nav-number">3.</span> <span class="nav-text">图片适配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适配相关"><span class="nav-number">4.</span> <span class="nav-text">适配相关</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#强制项目的显示模式"><span class="nav-number">4.0.1.</span> <span class="nav-text">强制项目的显示模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#终极方案"><span class="nav-number">4.0.2.</span> <span class="nav-text">终极方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Status-Bar更新"><span class="nav-number">5.</span> <span class="nav-text">Status Bar更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS13-其他更新"><span class="nav-number">6.</span> <span class="nav-text">iOS13 其他更新</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#苹果登录"><span class="nav-number">6.0.1.</span> <span class="nav-text">苹果登录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LaunchImage"><span class="nav-number">6.0.2.</span> <span class="nav-text">LaunchImage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UIWebView"><span class="nav-number">6.0.3.</span> <span class="nav-text">UIWebView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#私有KVC"><span class="nav-number">6.0.4.</span> <span class="nav-text">私有KVC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#黑线处理crash"><span class="nav-number">6.0.5.</span> <span class="nav-text">黑线处理crash</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hypoli</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
