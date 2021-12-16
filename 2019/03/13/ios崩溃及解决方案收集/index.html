@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="iOS 崩溃及解决方案收集216 SIGSEGV  SEGV_ACCERRSIGSEGV通常由操作系统生成，但是有适当权限的用户可以在需要时使用kill系统调用或kill命令（一个用户级程序，或者一个shell内建命令）来向一个进程发送信号。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 崩溃及解决方案收集">
+<meta property="og:url" content="http://example.com/2019/03/13/ios%E5%B4%A9%E6%BA%83%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%94%B6%E9%9B%86/index.html">
+<meta property="og:site_name" content="hypo Blog">
+<meta property="og:description" content="iOS 崩溃及解决方案收集216 SIGSEGV  SEGV_ACCERRSIGSEGV通常由操作系统生成，但是有适当权限的用户可以在需要时使用kill系统调用或kill命令（一个用户级程序，或者一个shell内建命令）来向一个进程发送信号。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-03-13T04:04:51.000Z">
+<meta property="article:modified_time" content="2021-12-16T08:10:58.894Z">
+<meta property="article:author" content="hypoli">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2019/03/13/ios%E5%B4%A9%E6%BA%83%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%94%B6%E9%9B%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>iOS 崩溃及解决方案收集 | hypo Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">hypo Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">13</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/hypoearl" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/13/ios%E5%B4%A9%E6%BA%83%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%94%B6%E9%9B%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="name" content="hypoli">
+      <meta itemprop="description" content="坚持分享知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hypo Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS 崩溃及解决方案收集
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-13 12:04:51" itemprop="dateCreated datePublished" datetime="2019-03-13T12:04:51+08:00">2019-03-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-12-16 16:10:58" itemprop="dateModified" datetime="2021-12-16T16:10:58+08:00">2021-12-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="iOS-崩溃及解决方案收集"><a href="#iOS-崩溃及解决方案收集" class="headerlink" title="iOS 崩溃及解决方案收集"></a>iOS 崩溃及解决方案收集</h1><h3 id="216-SIGSEGV"><a href="#216-SIGSEGV" class="headerlink" title="216 SIGSEGV"></a>216 SIGSEGV</h3><blockquote>
+<p> SEGV_ACCERR<br>SIGSEGV通常由操作系统生成，但是有适当权限的用户可以在需要时使用kill系统调用或kill命令（一个用户级程序，或者一个shell内建命令）<br>来向一个进程发送信号。</p>
+</blockquote>
+<span id="more"></span>
+<p>闪退场景一：recorder deleteRecording  之前 先判断文件是否存在，否则会造成过度释放，解决方法:<br> if ([[NSFileManager defaultManager] fileExistsAtPath:self.recorder.url.path]) {<br>    if (![self.recorder deleteRecording])<br>        NSLog(@”Failed to delete %@”, self.recorder.url);<br>闪退场景二： delegate = nil 。<br>将XXViewContrller设置为delegate时，当页面发生跳转时，XXViewController的对象会被释放，这是代码走到[_delegate callbackMethod],<br>便出现crash。解决方法有二：1.将@property (nonatomic ,assign) id <BLELibDelegate>delegate; 中 assign关键字改为weak。<br>2.在XXViewController的delloc方法中添加：xxx.delegate = nil;<br>实例：<br>-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{<br>      cell.delegate=self;<br>}<br>cell内部控件的点击事件通过代理方式如此实现时就会导致这个崩溃。<br>补充：SIG 是信号名的通用前缀, SEGV 是 segmentation violation 的缩写<br>在 POSIX 兼容的平台上，SIGSEGV 是当一个进程执行了一个无效的内存引用，或发生段错误时发送给它的信号。SIGSEGV 的符号常量在头文件 signal.h<br>中定义。因为在不同平台上，信号数字可能变化，因此符号信号名被使用。通常，它是信号11。<br>对于不正确的内存处理,如当程序企图访问 CPU 无法定址的内存区块时,计算机程序可能抛出 SIGSEGV。操作系统可能使用信号栈向一个处于自然状态的应用<br>程序通告错误，由此，开发者可以使用它来调试程序或处理错误。<br>在一个程序接收到 SIGSEGV 时的默认动作是异常终止。这个动作也许会结束进程，但是可能生成一个核心文件以帮助调试，或者执行一些其他特定于某些平台<br>的动作。<br>SIGSEGV可以被捕获。也就是说，应用程序可以请求它们想要的动作，以替代默认发生的动作。这样的动作可以是忽略它、调用一个函数，或恢复默认的动作。<br>在一些情形下，忽略 SIGSEGV 导致未定义行为。<br>一个应用程序可能处理SIGSEGV的例子是调试器，它可能检查信号栈并通知开发者目前所发生的，以及程序终止的位置。</p>
+<h3 id="tableView滑动删除，返回导致程序崩溃问题"><a href="#tableView滑动删除，返回导致程序崩溃问题" class="headerlink" title="tableView滑动删除，返回导致程序崩溃问题"></a>tableView滑动删除，返回导致程序崩溃问题</h3><blockquote>
+<ul>
+<li>(void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyleforRowAtIndexPath:(NSIndexPath *)indexPath;<br>实现后，删除某个cell没有问题，但滑动一行但不选中delete按钮，就点击导航栏的返回按钮，出现了崩溃现象，而且崩溃是出现在跳回到之前的界面之后，崩溃之后提示打印出EXE_BAD_ACESSS错，<br>直接到了 main 函数里。问题可能是在 canEditRowAtIndexPath 这个方法里设置了YES然后返回的时候没有把它设置成 NO 所以报错，ios6会自动设置成NO，iOS7 就手动设置成 NO也可以。<br>方案一：viewWillDisappear手动设置 editing 这个属性为NO 解决。参考：<a target="_blank" rel="noopener" href="http://blog.csdn.net/damon2989/article/details/44410367">http://blog.csdn.net/damon2989/article/details/44410367</a></li>
+<li>(void)viewWillDisappear:(BOOL)animated{<br>   [super viewWillDisappear:animated];<br>   [self.tableView setEditing:NO];<br>}<br>方案二：在删除事件点击完成时reloadData也可以- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath{<br>   //添加一个删除按钮<br>   UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:(UITableViewRowActionStyleDestructive) title:@”删除” handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {<pre><code>   [tableView reloadData];
+   NSLog(@&quot;****:delete&quot;);     
+</code></pre>
+   }];<br>   deleteAction.backgroundColor = [UIColor redColor];<br>   //将设置好的按钮方到数组中返回<br>   return @[deleteAction];<br>}</li>
+</ul>
+</blockquote>
+<h3 id="UIVisualEffectView报错的问题："><a href="#UIVisualEffectView报错的问题：" class="headerlink" title="UIVisualEffectView报错的问题："></a>UIVisualEffectView报错的问题：</h3><blockquote>
+<p>Assertion failure in -[UIVisualEffectView _addSubview:positioned:relativeTo:],<br>/BuildRoot/Library/Caches/com.apple.xbs/Sources/UIKit_Sim/UIKit-3698.21.8/UIVisualEffectView.m:1464<br>(lldb) </p>
+</blockquote>
+<h3 id="添加全局断点找到错误所在"><a href="#添加全局断点找到错误所在" class="headerlink" title="添加全局断点找到错误所在:"></a>添加全局断点找到错误所在:</h3><blockquote>
+<p>[self.effectview addSubview:label]<br>UIVisualEffectView添加子View的方式不对，在ios 11上必须添加到它的contentView内：<br>[self.effectview.contentView addSubview: label];</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/04/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="prev" title="面试题">
+      <i class="fa fa-chevron-left"></i> 面试题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/18/10%E4%B8%AA%E8%AE%A9%E4%BD%A0%E7%9B%B8%E8%A7%81%E6%81%A8%E6%99%9A%E7%9A%84iOS%20Swift%E5%8A%A8%E7%94%BB%E6%A1%86%E6%9E%B6/" rel="next" title="10个让你相见恨晚的iOS Swift动画框架！">
+      10个让你相见恨晚的iOS Swift动画框架！ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS-%E5%B4%A9%E6%BA%83%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">iOS 崩溃及解决方案收集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#216-SIGSEGV"><span class="nav-number">1.0.1.</span> <span class="nav-text">216 SIGSEGV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tableView%E6%BB%91%E5%8A%A8%E5%88%A0%E9%99%A4%EF%BC%8C%E8%BF%94%E5%9B%9E%E5%AF%BC%E8%87%B4%E7%A8%8B%E5%BA%8F%E5%B4%A9%E6%BA%83%E9%97%AE%E9%A2%98"><span class="nav-number">1.0.2.</span> <span class="nav-text">tableView滑动删除，返回导致程序崩溃问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UIVisualEffectView%E6%8A%A5%E9%94%99%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">1.0.3.</span> <span class="nav-text">UIVisualEffectView报错的问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%85%A8%E5%B1%80%E6%96%AD%E7%82%B9%E6%89%BE%E5%88%B0%E9%94%99%E8%AF%AF%E6%89%80%E5%9C%A8"><span class="nav-number">1.0.4.</span> <span class="nav-text">添加全局断点找到错误所在:</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hypoli"
+      src="/uploads/avatar.png">
+  <p class="site-author-name" itemprop="name">hypoli</p>
+  <div class="site-description" itemprop="description">坚持分享知识</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hypoli</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest-nomobile.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
